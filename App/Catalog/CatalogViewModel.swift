@@ -65,7 +65,17 @@ final class CatalogViewModel: ObservableObject {
     private func loadBundledCatalog() {
         guard let url = Bundle.main.url(forResource: "catalog", withExtension: "json", subdirectory: "Catalog"),
               let data = try? Data(contentsOf: url),
-              let decoded = try? JSONDecoder().decode([CatalogItem].self, from: data) else { return }
+              let decoded = try? JSONDecoder().decode([CatalogItem].self, from: data) else {
+            items = [
+                CatalogItem(
+                    name: "Stream de demonstração",
+                    streamURL: URL(string: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8")!,
+                    category: "Demonstração",
+                    logoURL: nil
+                )
+            ]
+            return
+        }
         items = decoded
     }
 }
