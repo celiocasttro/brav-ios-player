@@ -135,11 +135,17 @@ struct ContentView: View {
         ScrollView {
             LazyVStack(spacing: 8) {
                 if catalog.filteredItems.isEmpty {
-                    ContentUnavailableView(
-                        "Nenhum conteúdo",
-                        systemImage: "play.rectangle",
-                        description: Text("Importe uma playlist M3U ou adicione uma lista de demonstração ao catálogo.")
-                    )
+                    VStack(spacing: 10) {
+                        Image(systemName: "play.rectangle")
+                            .font(.system(size: 38))
+                            .foregroundStyle(.secondary)
+                        Text("Nenhum conteúdo")
+                            .font(.headline)
+                        Text("Importe uma playlist M3U para começar.")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+                    .frame(maxWidth: .infinity)
                     .padding(.top, 55)
                 } else {
                     ForEach(catalog.filteredItems) { item in
