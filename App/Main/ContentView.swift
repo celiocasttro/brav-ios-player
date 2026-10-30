@@ -7,6 +7,7 @@ struct ContentView: View {
     @State private var showingImporter = false
     @State private var selectedItem: CatalogItem?
     @State private var showingPlayer = false
+    @State private var showingSettings = false
 
     private let background = Color(red: 0.025, green: 0.025, blue: 0.03)
     private let accent = Color(red: 0.90, green: 0.05, blue: 0.10)
@@ -31,6 +32,13 @@ struct ContentView: View {
                 }
             }
             .toolbar(.hidden, for: .navigationBar)
+            .sheet(isPresented: $showingSettings) {
+                SettingsView(
+                    savedItemCount: catalog.items.count,
+                    hasSavedPlaylist: catalog.hasSavedPlaylist,
+                    onClearPlaylist: { catalog.clearSavedPlaylist() }
+                )
+            }
             .fileImporter(
                 isPresented: $showingImporter,
                 allowedContentTypes: [.plainText, .data],
@@ -59,9 +67,12 @@ struct ContentView: View {
                     .foregroundStyle(accent)
             }
             Spacer()
-            Image(systemName: "dot.radiowaves.left.and.right")
-                .font(.title2)
-                .foregroundStyle(accent)
+            Button { showingSettings = true } label: {
+                Image(systemName: "gearshape.fill")
+                    .font(.title2)
+                    .foregroundStyle(accent)
+            }
+            .accessibilityLabel("Configurações")
         }
         .padding(.horizontal, 20)
         .padding(.top, 18)
