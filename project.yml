@@ -1,0 +1,38 @@
+name: BRAVPlayer
+options:
+  bundleIdPrefix: com.celiocastro
+  deploymentTarget:
+    iOS: "16.0"
+  createIntermediateGroups: true
+targets:
+  BRAVPlayer:
+    type: application
+    platform: iOS
+    sources:
+      - path: App
+      - path: PlayerEngine
+    resources:
+      - path: Resources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.celiocastro.bravplayer
+        PRODUCT_NAME: BRAV Player
+        SWIFT_VERSION: "5.9"
+        TARGETED_DEVICE_FAMILY: "1,2"
+        INFOPLIST_KEY_CFBundleDisplayName: BRAV Player
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        GENERATE_INFOPLIST_FILE: YES
+        SUPPORTS_MACCATALYST: NO
+        IPHONEOS_DEPLOYMENT_TARGET: "16.0"
+  BRAVPlayerTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: Tests
+    dependencies:
+      - target: BRAVPlayer
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.celiocastro.bravplayer.tests
+        SWIFT_VERSION: "5.9"
+        GENERATE_INFOPLIST_FILE: YES
