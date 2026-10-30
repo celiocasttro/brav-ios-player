@@ -1,10 +1,18 @@
-# BRAV iOS Player
+# BRAV Player — iOS
 
-Projeto de aplicativo nativo para iPhone, desenvolvido em Swift e SwiftUI.
+Aplicativo nativo para iPhone/iPad em SwiftUI. Este repositório contém a primeira base funcional do player; não é uma conversão direta do APK Android.
 
-## Objetivo
+## O que já está implementado
 
-Criar um player iOS com catálogo integrado, categorias, capas, playlists e reprodução de streams compatíveis com iOS. O aplicativo será desenvolvido como projeto próprio; não é uma conversão direta do APK Android.
+- Interface inicial escura com identidade BRAV.
+- Importação de playlists M3U/M3U8 por endereço HTTP/HTTPS.
+- Importação de arquivo de playlist pelo app Arquivos do iPhone.
+- Leitura de nome, categoria (`group-title`) e logotipo (`tvg-logo`) dos itens M3U.
+- Filtro por categoria.
+- Reprodução inicial com AVPlayer / VideoPlayer.
+- Item de demonstração para validar a tela e o player.
+- Teste unitário inicial para o parser M3U.
+- Workflow de GitHub Actions para tentar compilar o projeto em macOS.
 
 ## Estrutura
 
@@ -23,23 +31,36 @@ brav-ios-player/
 ├── PlayerEngine/
 ├── Configuration/
 ├── Tests/
+├── project.yml
 └── README.md
 ```
 
-## Tecnologias previstas
+## Gerar o projeto Xcode
 
-- Swift
-- SwiftUI para a interface
-- AVKit / AVPlayer para reprodução de mídia compatível
-- XCTest para testes
+Requisitos: macOS, Xcode e XcodeGen.
 
-## Organização inicial
+```bash
+brew install xcodegen
+xcodegen generate
+open BRAVPlayer.xcodeproj
+```
 
-As pastas foram preparadas para receber os arquivos do aplicativo. Os arquivos `.gitkeep` mantêm as pastas vazias no Git até que os componentes reais sejam adicionados.
+Para compilar no simulador:
+
+```bash
+xcodebuild -project BRAVPlayer.xcodeproj -scheme BRAVPlayer -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build
+```
+
+A geração de IPA para instalação em iPhone exige macOS/Xcode e assinatura válida da Apple (certificado e provisioning profile apropriados).
+
+## Próximas etapas
+
+1. Validar o build no Xcode e corrigir eventuais diferenças de SDK.
+2. Melhorar o parser para formatos M3U usados nas listas reais.
+3. Implementar persistência local das playlists e favoritos.
+4. Melhorar controles do player, tratamento de erros e compatibilidade de streams.
+5. Integrar catálogo próprio e metadados/capas com direitos de uso.
 
 ## Observações
 
-- O catálogo poderá ser empacotado em `Resources/Catalog/` e as playlists autorizadas em `Resources/Playlists/`.
-- Streams ao vivo e conteúdos hospedados remotamente ainda dependem de conexão e disponibilidade dos respectivos servidores.
-- O projeto ainda não contém um app compilável nem um IPA. A configuração do projeto Xcode e a implementação serão feitas nas próximas etapas.
-- A compilação e assinatura do IPA exigem Xcode em um Mac e uma configuração de assinatura Apple adequada.
+O AVPlayer reproduz formatos suportados pelo iOS, incluindo HLS quando a origem está corretamente configurada. Nem todo link TS, contêiner ou protocolo usado por players Android será compatível automaticamente. Conteúdos remotos dependem de internet e da disponibilidade dos servidores. Use somente listas e transmissões que você tenha autorização para acessar.
