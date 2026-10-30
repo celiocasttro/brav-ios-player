@@ -12,7 +12,7 @@ final class CatalogViewModel: ObservableObject {
     private let maximumPlaylistSize = 20 * 1024 * 1024
 
     var categories: [String] {
-        Array(Set(items.map(\\.category))).sorted()
+        Array(Set(items.map(\.category))).sorted()
     }
 
     var filteredItems: [CatalogItem] {
@@ -33,7 +33,7 @@ final class CatalogViewModel: ObservableObject {
             let (data, response) = try await URLSession.shared.data(for: request)
             if let http = response as? HTTPURLResponse,
                !(200...299).contains(http.statusCode) {
-                message = "O servidor respondeu com erro HTTP \\(http.statusCode)."
+                message = "O servidor respondeu com erro HTTP \(http.statusCode)."
                 return
             }
             guard data.count <= maximumPlaylistSize else {
@@ -46,7 +46,7 @@ final class CatalogViewModel: ObservableObject {
             }
             applyPlaylist(text)
         } catch {
-            message = "Falha ao carregar playlist: \\(error.localizedDescription)"
+            message = "Falha ao carregar playlist: \(error.localizedDescription)"
         }
     }
 
@@ -67,7 +67,7 @@ final class CatalogViewModel: ObservableObject {
             }
             applyPlaylist(text)
         } catch {
-            message = "Não foi possível importar: \\(error.localizedDescription)"
+            message = "Não foi possível importar: \(error.localizedDescription)"
         }
     }
 
@@ -90,10 +90,10 @@ final class CatalogViewModel: ObservableObject {
             items = parsed
             hasSavedPlaylist = true
             selectedCategory = "Todos"
-            message = "\\(parsed.count) itens carregados e salvos neste iPhone."
+            message = "\(parsed.count) itens carregados e salvos neste iPhone."
         } catch {
             items = parsed
-            message = "\\(parsed.count) itens carregados, mas não foi possível salvá-los."
+            message = "\(parsed.count) itens carregados, mas não foi possível salvá-los."
         }
     }
 
@@ -104,7 +104,7 @@ final class CatalogViewModel: ObservableObject {
               !savedItems.isEmpty else { return false }
         items = savedItems
         hasSavedPlaylist = true
-        message = "Playlist anterior restaurada (\\(savedItems.count) itens)."
+        message = "Playlist anterior restaurada (\(savedItems.count) itens)."
         return true
     }
 
