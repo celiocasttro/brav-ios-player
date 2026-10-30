@@ -34,7 +34,7 @@ struct PlayerView: View {
                 .padding(.top, 12)
             }
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
+                ToolbarItem(placement: .navigationBarLeading) {
                     Button("Fechar") {
                         manager.pause()
                         dismiss()
